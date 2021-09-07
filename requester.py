@@ -32,7 +32,6 @@ tableHeadersExport = [
     #'CNT_VAL_MO', # containerized vessel value
     'MONTH',
     'SUMMARY_LVL',
-    'YEAR',
     'DF'
 ]
 
@@ -59,9 +58,9 @@ tableHeadersImport = [
 ]
 
 years = [
-    2017#,
-    #2018,
-    #2019
+    #2017,
+    2018,
+    2019
 ]
 
 ctyCodes = [

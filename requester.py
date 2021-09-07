@@ -18,28 +18,35 @@ API_KEY = API_KEY.rstrip('\n')
 tableHeadersExport = [
     'CTY_CODE',
     'CTY_NAME',
-    #'ALL_VAL_MO',
-    'SUMMARY_LVL',
-    'DF',
+    'ALL_VAL_MO',
     'QTY_1_MO',
-    #'QTY_2_MO',
+    'QTY_1_MO_FLAG',
     'UNIT_QY1',
+    'QTY_2_MO',
+    'QTY_2_MO_FLAG',
+    'UNIT_QY2',
     #'UNIT_QY2',
     #'AIR_VAL_MO', # air value
     #'AIR_WGT_MO', # air weight value
     #'VES_VAL_MO', # vessel value
     #'CNT_VAL_MO', # containerized vessel value
-    'MONTH'
+    'MONTH',
+    'SUMMARY_LVL',
+    'YEAR',
+    'DF'
 ]
 
 tableHeadersImport = [
     'CTY_CODE',
     'CTY_NAME',
+    'GEN_CHA_MO',
+    'GEN_CIF_MO',
     'GEN_VAL_MO',
     'GEN_QY1_MO_FLAG',
-    #'CON_QY1_MO',
     'UNIT_QY1',
-    #'GEN_VAL_MO',
+    'GEN_QY2_MO',
+    'GEN_QY2_MO_FLAG',
+    'UNIT_QY2',
     #'AIR_VAL_MO', # air value
     #'AIR_WGT_MO', # air weight value
     #'VES_VAL_MO', # vessel value
@@ -75,12 +82,14 @@ for line in lines:
     line = line.rstrip('\n')
     seafoodHScodes.append(line)
 
-seafoodHScodes = ['0301110020']
+#seafoodHScodes = ['0301110020']
 
 for year in years:
     print(f'hs codes are being searched for {year}')
 
     for hsCode in seafoodHScodes:
+
+        print(f'YEAR: {year} HS CODE: {hsCode}')
         # INTL and Domestic export trades
         exports = helpers.getTradeRecords('export', EXPORT_URL, tableHeadersExport, [hsCode], hsLvl, [year], ctyCodes, API_KEY)
         exportFile = ''
@@ -88,7 +97,7 @@ for year in years:
             exportFile = helpers.makeCSV(exports)
         print('retrieved exports')
 
-        fOutName = f'Raw_Data/exports/{hsCode}_{str(year)}.csv'
+        fOutName = f'Raw_Data/exports/{year}/{hsCode}_{str(year)}.csv'
         fOut = open(fOutName, 'w')
         fOut.write(exportFile)
         fOut.close()
@@ -99,7 +108,7 @@ for year in years:
             importFile = helpers.makeCSV(imports)
         print('retrieved imports')
 
-        importFilePath = f'Raw_Data/imports/{hsCode}_{str(year)}.csv'
+        importFilePath = f'Raw_Data/imports/{year}/{hsCode}_{str(year)}.csv'
         importF = open(importFilePath, 'w')
         importF.write(importFile)
         importF.close()
